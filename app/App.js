@@ -18,17 +18,23 @@ var DefaultRoute= Router.DefaultRoute;
 
 var Movies= React.createClass({
     getInitialState: function() {
+        api.getMovies(null, { huhu: 'haha' }, function( movies ) {
+            this.setState({ items: movies });
+        }.bind(this));
+
         return {
-            items: ['movie1', 'movie2'],
+            items: [],
         }
     },
 
     render: function() {
         return (
             <div>
-                { this.state.items.map(function( name ) {
-                    return ( <div>{ name }</div> )
-                }) }
+                {
+                    this.state.items.map(function( name, i ) {
+                        return ( <div key={i}>{ name }</div> )
+                    })
+                }
             </div>
         );
     },

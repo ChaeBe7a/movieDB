@@ -30,7 +30,6 @@ server.get(/\/?/, restify.serveStatic({
 }));
 
 server.post('movies/:token', function( req, res, next ) {
-    console.log(req.body, req.params)
     return movieApi.getMovies(null, null, null, null, send.bind(res, next));
 });
 
