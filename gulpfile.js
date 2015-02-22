@@ -181,13 +181,13 @@ gulp.task('default', function () {
     browserifyTask({
         development: true,
         src: './app/main.js',
-        dest: './build/static'
+        dest: './build'
     });
 
     cssTask({
         development: true,
         src: './styles/**/*.css',
-        dest: './build/static'
+        dest: './build'
     });
 });
 
@@ -198,13 +198,13 @@ gulp.task('deploy', function () {
     browserifyTask({
         development: false,
         src: './app/main.js',
-        dest: './dist/static'
+        dest: './dist'
     });
 
     cssTask({
         development: false,
         src: './styles/**/*.css',
-        dest: './dist/static'
+        dest: './dist'
     });
 });
 

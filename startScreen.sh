@@ -18,7 +18,7 @@ cfile="`mktemp`"
 cat > "$cfile" << EOT
 split
 screen -t "HTTP"
-stuff "cd build\012"
+stuff "cd server\012"
 stuff "../$nodemon ./app.js\012"
 focus
 screen -t "ReactJS"

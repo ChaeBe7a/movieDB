@@ -19,7 +19,7 @@ var send= function( next, err, data ) {
 var server = restify.createServer();
 server.use(restify.bodyParser());
 
-server.get(/\/static\/?.*/, restify.serveStatic({
+server.get(/\/static\/.*/, restify.serveStatic({
     directory: __dirname,
     default: 'index.html',
 }));
@@ -30,7 +30,7 @@ server.get(/\/?/, restify.serveStatic({
 }));
 
 server.post('movies/:token', function( req, res, next ) {
-    return movieApi.getMovies(null, null, null, null, send.bind(res, next));
+    return movieApi.getMovies(req.params.token, req.params.query, send.bind(res, next));
 });
 
 

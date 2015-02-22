@@ -16,23 +16,15 @@ var Tools= require('./tools');
 
 var DefaultRoute= Router.DefaultRoute;
 
-var Movies= React.createClass({
-    getInitialState: function() {
-        api.getMovies(null, { huhu: 'haha' }, function( movies ) {
-            this.setState({ items: movies });
-        }.bind(this));
-
-        return {
-            items: [],
-        }
-    },
-
+var MovieList= React.createClass({
     render: function() {
         return (
             <div>
                 {
-                    this.state.items.map(function( name, i ) {
-                        return ( <div key={i}>{ name }</div> )
+                    this.props.items.map(function( movie ) {
+                        return (
+                            <div key={ movie._id }>{ movie.name }</div>
+                        );
                     })
                 }
             </div>
@@ -40,9 +32,43 @@ var Movies= React.createClass({
     },
 });
 
+var InfiniteMovies= React.createClass({
+    getInitialState: function() {
+        return {
+            items: [],
+            hasMore: true,
+            lastQuery: null,
+            token: null,
+        }
+    },
+
+    loadMore: function( page ) {
+        var token= this.state.token;
+        if ( !Tools.equals(this.props.query, this.state.lastQuery) ) {
+            token= null;
+        }
+
+        var query= this.props.query;
+
+        api.getMovies(token, query, function( data ) {
+            this.setState(Tools.clone(this.state, { lastQuery: query, token: data.token, items: this.state.items.concat(data.movies), hasMore: data.hasMore }));
+        }.bind(this));
+    },
+
+    render: function() {
+        return (
+            <div>
+                <InfiniteScroll loader={ <div>Loading...</div> } loadMore={ this.loadMore } hasMore={ this.state.hasMore }>
+                    <MovieList items={ this.state.items } />
+                </InfiniteScroll>
+            </div>
+        );
+    },
+});
+
 var routes = (
-    <Route name="app" path="/" handler={Movies}>
-        <DefaultRoute name="query" handler={Movies} />
+    <Route name="app" path="/" handler={InfiniteMovies}>
+        <DefaultRoute name="query" handler={InfiniteMovies} />
     </Route>
 );
 

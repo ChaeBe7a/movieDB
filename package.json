@@ -26,7 +26,11 @@
     "watchify": "^2.1.1",
     "react-bootstrap": "*",
     "react-router-bootstrap": "*",
-    "react-infinite-scroll": "*"
+    "react-infinite-scroll": "*",
+    "mongodb": "*",
+    "bson": "*",
+    "nodemon": "*",
+    "node-uuid": "*"
   },
   "dependencies": {
     "react": "^0.12.0",
